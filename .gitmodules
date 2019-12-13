@@ -1,0 +1,6 @@
+[submodule ".idea"]
+	path = .idea
+	url = https://github.com/Asia-Fredd/.idea.git
+[submodule "buildSrc"]
+	path = buildSrc
+	url = https://github.com/Asia-Fredd/buildSrc.git
