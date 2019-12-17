@@ -20,7 +20,7 @@ class LuhnTest {
         )
         for ((isValid, number) in samples) {
             val actual = Luhn.Check(number)
-            assertEquals(actual, isValid)
+            assertEquals(isValid, actual)
             println("${number.toString().padEnd(16)} is ${if (actual) "valid" else "invalid"}")
         }
     }

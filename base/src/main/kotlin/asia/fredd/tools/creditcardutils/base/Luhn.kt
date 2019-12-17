@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package asia.fredd.tools.creditcardutils.base
 
 class Luhn {
