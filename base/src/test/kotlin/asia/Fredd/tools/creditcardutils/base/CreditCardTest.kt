@@ -3,12 +3,13 @@
 package asia.fredd.tools.creditcardutils.base
 
 import org.junit.Test
+import java.util.regex.Pattern
 import kotlin.test.assertEquals
 
 class CreditCardTest {
 
     @Test
-    fun Extract() {
+    fun ExtractNumber() {
         val inpText1: CharSequence = """
             1900-01-01 2007/08/13 1900.01 0.01 1
             90
@@ -40,4 +41,26 @@ class CreditCardTest {
         println("ccn is CharSequence: ${ccn2 is CharSequence}")
     }
 
+    @Test
+    fun Extract() {
+        val pattern1 = Pattern.compile("(\\d)[-]?(\\d)[-]?(\\d)[-]?(\\d)")
+        val matcher1 = pattern1.matcher("12-3-4567")
+        matcher1.find().run(::println)
+        matcher1.groupCount().run(::println)
+        matcher1.group().run(::println)
+        matcher1.group(0).run(::println)
+        matcher1.group(1).run(::println)
+        matcher1.group(2).run(::println)
+        matcher1.group(3).run(::println)
+        matcher1.group(4).run(::println)
+        "------------------------------------------------------------------------------".run(::println)
+        matcher1.reset()
+        val pattern2 = Pattern.compile("(\\d)(\\d)(\\d)(\\d)")
+        val matcher2 = matcher1.usePattern(pattern2)
+        matcher2.find().run(::println)
+        matcher2.pattern().run(::println)
+
+        matcher1.find().run(::println)
+        matcher1.pattern().run(::println)
+    }
 }

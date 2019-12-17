@@ -5,13 +5,50 @@ package asia.fredd.tools.creditcardutils.base
 import java.lang.StringBuilder
 import java.util.regex.Pattern
 
-class CreditCard {
+sealed class CreditCard(val ccn: CharSequence) {
+    /**
+     * 美國運通
+     */
+    class AmericanExpress(ccn: CharSequence) : CreditCard(ccn)
+
+    /**
+     * 發現卡
+     */
+    class DiscoverCard(ccn: CharSequence) : CreditCard(ccn)
+
+    /**
+     * MasterCard
+     */
+    class Mastercard(ccn: CharSequence) : CreditCard(ccn)
+
+    /**
+     * Visa Card
+     */
+    class VisaCad(ccn: CharSequence) : CreditCard(ccn)
+
+    /**
+     * 中國銀聯
+     */
+    class UnionPay(ccn: CharSequence) : CreditCard(ccn)
+
+    /**
+     * 靜態類
+     */
     companion object {
+
         @JvmStatic
-        fun ExtractNumber(src: CharSequence, pattern: Pattern = DefaultPattern): CharSequence? =
+        fun Extract(src: CharSequence): CreditCard? {
+            return null
+        }
+
+        @JvmStatic
+        internal fun ExtractNumber(
+            src: CharSequence,
+            pattern: Pattern = DefaultPattern
+        ): CharSequence? =
             pattern.matcher(src).takeIf { it.find() }?.run {
-                IntArray(groupCount()).foldIndexed(StringBuilder()) { index, sb, _ ->
-                    start(index + 1).takeUnless { it < 0 }
+                IntArray(groupCount()) { i -> start(i + 1) }.fold(StringBuilder()) { sb, start ->
+                    start.takeUnless { it < 0 }
                         ?.run(src::get)
                         ?.run(sb::append)
                         ?: sb
@@ -31,5 +68,9 @@ class CreditCard {
             .append("[\\-\\r\\n\\s]{0,2}(\\d)").append('?')
             .toString()
             .run(Pattern::compile)
+
+        private fun isAmericanExpress(numbers: CharSequence): AmericanExpress {
+            return AmericanExpress("")
+        }
     }
 }
