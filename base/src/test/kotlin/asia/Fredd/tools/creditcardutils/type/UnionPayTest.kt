@@ -13,11 +13,11 @@ class UnionPayTest {
             assert(card is UnionPay)
             assertEquals("6291583220040406", card?.cardNumber)
         }
-        UnionPay.Valid("6288173463168398" + "123456789").also { card ->
+        UnionPay.Valid("6211205630495239" + "123456789").also { card ->
             assert(card != null)
             assert(card is CardType)
             assert(card is UnionPay)
-            assertEquals("6288173463168398", card?.cardNumber)
+            assertEquals("6211205630495239", card?.cardNumber)
         }
         UnionPay.Valid("8865140391582328" + "123456789").also { card ->
             assert(card != null)

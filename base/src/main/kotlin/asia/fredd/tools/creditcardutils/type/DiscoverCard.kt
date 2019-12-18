@@ -3,6 +3,7 @@
 package asia.fredd.tools.creditcardutils.type
 
 import asia.fredd.tools.creditcardutils.base.CardType
+import asia.fredd.tools.creditcardutils.base.CardType.Companion.IIN
 import asia.fredd.tools.creditcardutils.base.Luhn
 
 /**
@@ -28,10 +29,16 @@ class DiscoverCard private constructor(override val cardNumber: CharSequence) : 
             // 先判斷長度是否大於 16
             src.length < 16 -> null
             // 判斷是否符合 IIN = 6011, 622126 - 622925, 624000 - 626999, 628200 - 628899, 64, 65
-            src[0] != '6' -> null
-            else -> when (src[1]) {
-                '0', '2', '4', '5' -> src.subSequence(0, 16).run(::convert) // 最後驗證 Luhn 演算法; TODO: 未處理卡號長度大於16~19
-                else -> null
+            else -> IIN(src[0], src[1], src[2], src[3], src[4], src[5]).run {
+                // 最後驗證 Luhn 演算法
+                when (this) {
+                    in 601100..601199,
+                    in 622126..622925,
+                    in 624000..626999,
+                    in 628200..628899,
+                    in 640000..659999 -> src.subSequence(0, 16).run(::convert)  // 最後驗證 Luhn 演算法; TODO: 未處理卡號長度大於16~19
+                    else -> null
+                }
             }
         }
 

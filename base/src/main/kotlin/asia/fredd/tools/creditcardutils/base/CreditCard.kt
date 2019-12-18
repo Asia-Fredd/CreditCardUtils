@@ -2,16 +2,34 @@
 
 package asia.fredd.tools.creditcardutils.base
 
+import asia.fredd.tools.creditcardutils.type.*
 import java.lang.StringBuilder
 import java.util.regex.Pattern
 
 class CreditCard {
+
+    /**
+     * 靜態類
+     */
     companion object {
+
         @JvmStatic
-        fun ExtractNumber(src: CharSequence, pattern: Pattern = DefaultPattern): CharSequence? =
+        fun Extract(src: CharSequence): CardType? = ExtractNumber(src)?.run{
+                  let(AmericanExpress.Companion::Valid)
+                ?:let(DiscoverCard.Companion::Valid)
+                ?:let(VisaCard.Companion::Valid)
+                ?:let(MasterCard.Companion::Valid)
+                ?:let(UnionPay.Companion::Valid)
+        }
+
+        @JvmStatic
+        internal fun ExtractNumber(
+            src: CharSequence,
+            pattern: Pattern = DefaultPattern
+        ): CharSequence? =
             pattern.matcher(src).takeIf { it.find() }?.run {
-                IntArray(groupCount()).foldIndexed(StringBuilder()) { index, sb, _ ->
-                    start(index + 1).takeUnless { it < 0 }
+                IntArray(groupCount()) { i -> start(i + 1) }.fold(StringBuilder()) { sb, start ->
+                    start.takeUnless { it < 0 }
                         ?.run(src::get)
                         ?.run(sb::append)
                         ?: sb

@@ -2,13 +2,14 @@
 
 package asia.fredd.tools.creditcardutils.base
 
+import asia.fredd.tools.creditcardutils.type.*
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class CreditCardTest {
 
     @Test
-    fun Extract() {
+    fun ExtractNumber() {
         val inpText1: CharSequence = """
             1900-01-01 2007/08/13 1900.01 0.01 1
             90
@@ -40,4 +41,17 @@ class CreditCardTest {
         println("ccn is CharSequence: ${ccn2 is CharSequence}")
     }
 
+    @Test
+    fun Extract() {
+        assert(CreditCard.Extract("345802604558307" +"123456789") is AmericanExpress)
+        assert(CreditCard.Extract("6011628014586236"+"123456789") is DiscoverCard)
+        assert(CreditCard.Extract("4916036765779888"+"123456789") is VisaCard)
+        assert(CreditCard.Extract("5450089133971306"+"123456789") is MasterCard)
+        assert(CreditCard.Extract("5213963360818570"+"123456789") is MasterCard)
+        assert(CreditCard.Extract("2223129969730708"+"123456789") is MasterCard)
+        assert(CreditCard.Extract("6291583220040406"+"123456789") is UnionPay)
+        assert(CreditCard.Extract("6288173463168398"+"123456789") is UnionPay)
+        assert(CreditCard.Extract("8865140391582328"+"123456789") is UnionPay)
+        assert(CreditCard.Extract("8875350719104196"+"123456789") is UnionPay)
+    }
 }
