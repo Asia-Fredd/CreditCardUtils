@@ -22,7 +22,7 @@ class DiscoverCard private constructor(override val cardNumber: CharSequence) : 
          * @see
          * [1] https://en.wikipedia.org/wiki/Payment_card_number
          * <br>
-         * [2] https://github.com/getbouncer/cardscan-android/blob/1.0.5115/cardscan-base/src/main/java/com/getbouncer/cardscan/base/CreditCardUtils.java#L101
+         * [2] https://github.com/getbouncer/cardscan-android/blob/1.0.5115/cardscan-base/src/main/java/com/getbouncer/cardscan/base/CreditCardUtils.java#L93-L102
          */
         fun Valid(src: CharSequence): CardType? = when {
             // 先判斷長度是否大於 16
