@@ -42,16 +42,32 @@ class CreditCardTest {
     }
 
     @Test
-    fun Extract() {
-        assert(CreditCard.Extract("345802604558307" +"123456789") is AmericanExpress)
-        assert(CreditCard.Extract("6011628014586236"+"123456789") is DiscoverCard)
-        assert(CreditCard.Extract("4916036765779888"+"123456789") is VisaCard)
-        assert(CreditCard.Extract("5450089133971306"+"123456789") is MasterCard)
-        assert(CreditCard.Extract("5213963360818570"+"123456789") is MasterCard)
-        assert(CreditCard.Extract("2223129969730708"+"123456789") is MasterCard)
-        assert(CreditCard.Extract("6291583220040406"+"123456789") is UnionPay)
-        assert(CreditCard.Extract("62033623259185366"+"23456789") is UnionPay)
-        assert(CreditCard.Extract("8865140391582328"+"123456789") is UnionPay)
-        assert(CreditCard.Extract("8875350719104196"+"123456789") is UnionPay)
+    fun ExtractCardNumber() {
+        assert(CreditCard.ExtractCardNumber("345802604558307" + "123456789") is AmericanExpress)
+        assert(CreditCard.ExtractCardNumber("6011628014586236" + "123456789") is DiscoverCard)
+        assert(CreditCard.ExtractCardNumber("4916036765779888" + "123456789") is VisaCard)
+        assert(CreditCard.ExtractCardNumber("5450089133971306" + "123456789") is MasterCard)
+        assert(CreditCard.ExtractCardNumber("5213963360818570" + "123456789") is MasterCard)
+        assert(CreditCard.ExtractCardNumber("2223129969730708" + "123456789") is MasterCard)
+        assert(CreditCard.ExtractCardNumber("6291583220040406" + "123456789") is UnionPay)
+        assert(CreditCard.ExtractCardNumber("62033623259185366" + "23456789") is UnionPay)
+        assert(CreditCard.ExtractCardNumber("8865140391582328" + "123456789") is UnionPay)
+        assert(CreditCard.ExtractCardNumber("8875350719104196" + "123456789") is UnionPay)
+    }
+
+    @Test
+    fun ExtractCardDate() {
+        // 月無效
+        assertEquals("null", CreditCard.ExtractCardDateThru("13/22")?.date.toString())
+        // 年無效: 假定基準是 2020
+        assertEquals("null", CreditCard.ExtractCardDateThru("12/19")?.date.toString())
+        // 今年之前過期
+        assertEquals("null", CreditCard.ExtractCardDateThru("03/18")?.date.toString())
+        // 今年之後過期
+        assertEquals("0320", CreditCard.ExtractCardDateThru("03/20")?.date.toString())
+        // 今年本月之前過期
+        assertEquals("null", CreditCard.ExtractCardDateThru("03/19")?.date.toString())
+        // 今年本月之後過期
+        assertEquals("1219", CreditCard.ExtractCardDateThru("12/19")?.date.toString())
     }
 }

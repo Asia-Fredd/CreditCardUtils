@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "SpellCheckingInspection")
 
 package asia.fredd.tools.creditcardutils.base
 
@@ -14,7 +14,11 @@ class CreditCard {
     companion object {
 
         @JvmStatic
-        fun Extract(src: CharSequence): CardType? = ExtractNumber(src)?.run{
+        fun ExtractCardDateThru(src: CharSequence): CardDateThru? =
+            ExtractNumber(src, DatePattern)?.run(CardDateThru.Companion::Valid)
+
+        @JvmStatic
+        fun ExtractCardNumber(src: CharSequence): CardType? = ExtractNumber(src)?.run{
                   let(AmericanExpress.Companion::Valid)
                 ?:let(DiscoverCard.Companion::Valid)
                 ?:let(VisaCard.Companion::Valid)
@@ -49,5 +53,13 @@ class CreditCard {
             .append("[\\-\\r\\n\\s]{0,2}(\\d)").append('?')
             .toString()
             .run(Pattern::compile)
+
+        /**
+         * 信用卡 日期 樣板
+         */
+        private val DatePattern: Pattern = Pattern.compile(
+            //"(01|02|03|04|05|06|07|08|09|10|11|12)\\/([2-9])(\\d)"
+            "(0|1)(\\d)\\/([2-9])(\\d)"
+        )
     }
 }

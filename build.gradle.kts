@@ -23,6 +23,7 @@ buildScan {
 }
 
 allprojects {
+    group = "asia.fredd.tools.creditcardutils"
     repositories {
         google()
         jcenter()
