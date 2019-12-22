@@ -19,6 +19,13 @@ class UnionPayTest {
             assert(card is UnionPay)
             assertEquals("6211205630495239", card?.cardNumber)
         }
+        UnionPay.Valid("62033623259185366" + "23456789").also { card ->
+            assert(card != null)
+            assert(card is CardType)
+            assert(card is UnionPay)
+            assertEquals("6203362325918536" , card?.cardNumber)
+            assertEquals("62033623259185366", card?.cardNumber) // TODO: 實際是 17 碼
+        }
         UnionPay.Valid("8865140391582328" + "123456789").also { card ->
             assert(card != null)
             assert(card is CardType)

@@ -50,7 +50,7 @@ class CreditCardTest {
         assert(CreditCard.Extract("5213963360818570"+"123456789") is MasterCard)
         assert(CreditCard.Extract("2223129969730708"+"123456789") is MasterCard)
         assert(CreditCard.Extract("6291583220040406"+"123456789") is UnionPay)
-        assert(CreditCard.Extract("6288173463168398"+"123456789") is UnionPay)
+        assert(CreditCard.Extract("62033623259185366"+"23456789") is UnionPay)
         assert(CreditCard.Extract("8865140391582328"+"123456789") is UnionPay)
         assert(CreditCard.Extract("8875350719104196"+"123456789") is UnionPay)
     }
