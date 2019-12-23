@@ -25,11 +25,11 @@ class CardDateThru private constructor(val date: CharSequence) {
                     get(Calendar.MONTH) + 1 to get(Calendar.YEAR)
                 }
                 when {
-                    // 今年之後才過期
+                    // 今年之後才過期(不含今年)
                     ocrDateThru.year > nowYear -> CardDateThru(src)
-                    // 今年本月之後才過期
+                    // 今年本月之後才過期(不含本月)
                     ocrDateThru.year == nowYear
-                            && ocrDateThru.month >= nowMonth -> CardDateThru(src)
+                            && ocrDateThru.month > nowMonth -> CardDateThru(src)
                     // 今年之前就過期
                     else -> null
                 }

@@ -13,13 +13,13 @@ class CardDateThruTest {
         assertEquals("null", CardDateThru.Valid("1322")?.date.toString())
         // 年無效: 假定基準是 2020
         assertEquals("null", CardDateThru.Valid("1219")?.date.toString())
-        // 今年之前過期
+        // 今年之前過期(不含今年)
         assertEquals("null", CardDateThru.Valid("0318")?.date.toString())
-        // 今年之後過期
+        // 今年之後過期(不含今年)
         assertEquals("0320", CardDateThru.Valid("0320")?.date.toString())
-        // 今年本月之前過期
+        // 今年本月之前過期(不含本月)
         assertEquals("null", CardDateThru.Valid("0319")?.date.toString())
-        // 今年本月之後過期
-        assertEquals("1219", CardDateThru.Valid("1219")?.date.toString())
+        // 今年本月之後過期(不含本月)
+        assertEquals("null", CardDateThru.Valid("1219")?.date.toString())
     }
 }

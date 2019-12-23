@@ -56,18 +56,18 @@ class CreditCardTest {
     }
 
     @Test
-    fun ExtractCardDate() {
+    fun ExtractCardDateThru() {
         // 月無效
         assertEquals("null", CreditCard.ExtractCardDateThru("13/22")?.date.toString())
         // 年無效: 假定基準是 2020
         assertEquals("null", CreditCard.ExtractCardDateThru("12/19")?.date.toString())
-        // 今年之前過期
+        // 今年之前過期(不含今年)
         assertEquals("null", CreditCard.ExtractCardDateThru("03/18")?.date.toString())
-        // 今年之後過期
+        // 今年之後過期(不含今年)
         assertEquals("0320", CreditCard.ExtractCardDateThru("03/20")?.date.toString())
-        // 今年本月之前過期
+        // 今年本月之前過期(不含本月)
         assertEquals("null", CreditCard.ExtractCardDateThru("03/19")?.date.toString())
-        // 今年本月之後過期
-        assertEquals("1219", CreditCard.ExtractCardDateThru("12/19")?.date.toString())
+        // 今年本月之後過期(不含本月)
+        assertEquals("null", CreditCard.ExtractCardDateThru("12/19")?.date.toString())
     }
 }
