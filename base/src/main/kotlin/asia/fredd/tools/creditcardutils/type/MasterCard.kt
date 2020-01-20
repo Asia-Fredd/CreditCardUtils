@@ -2,6 +2,7 @@
 
 package asia.fredd.tools.creditcardutils.type
 
+import asia.fredd.tools.creditcardutils.base.CardDateThru
 import asia.fredd.tools.creditcardutils.base.CardType
 import asia.fredd.tools.creditcardutils.base.CardType.Companion.IIN
 import asia.fredd.tools.creditcardutils.base.Luhn
@@ -10,6 +11,9 @@ import asia.fredd.tools.creditcardutils.base.Luhn
  * MasterCard
  */
 class MasterCard private constructor(override val cardNumber: CharSequence) : CardType {
+
+    override var cardDateThru: CardDateThru? = null
+
     companion object {
         /**
          * 查核卡號 是否符合 MasterCard 信用卡號編碼

@@ -2,6 +2,7 @@
 
 package asia.fredd.tools.creditcardutils.type
 
+import asia.fredd.tools.creditcardutils.base.CardDateThru
 import asia.fredd.tools.creditcardutils.base.CardType
 import asia.fredd.tools.creditcardutils.base.Luhn
 
@@ -9,6 +10,9 @@ import asia.fredd.tools.creditcardutils.base.Luhn
  * 中國銀聯
  */
 class UnionPay private constructor(override val cardNumber: CharSequence) : CardType {
+
+    override var cardDateThru: CardDateThru? = null
+
     companion object {
         /**
          * 查核卡號 是否符合 中國銀聯 信用卡號編碼
