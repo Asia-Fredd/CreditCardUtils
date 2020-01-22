@@ -24,4 +24,40 @@ class LuhnTest {
             println("${number.toString().padEnd(16)} is ${if (actual) "valid" else "invalid"}")
         }
     }
+
+    @Test
+    fun Guess() {
+        Array(10) { index ->
+            "37598754321001$index"
+        }.forEach { cardNumber ->
+            val isValid = Luhn.Check(cardNumber)
+            if (isValid) {
+                println("$cardNumber = $isValid")
+            } else {
+                System.err.println("$cardNumber = $isValid")
+            }
+        }
+        println()
+        val combines = arrayOf(
+            intArrayOf(1, 7),
+            intArrayOf(1, 7),
+            intArrayOf(1, 7),
+            intArrayOf(1, 7)
+        )
+        combines[0].forEach { n0 ->
+            combines[1].forEach { n1 ->
+                combines[2].forEach { n2 ->
+                    combines[3].forEach { n3 ->
+                        val cardNumber = "3${n0}598${n1}5432${n2}00${n3}2"
+                        val isValid = Luhn.Check(cardNumber)
+                        if (isValid) {
+                            println("$cardNumber = $isValid")
+                        } else {
+                            System.err.println("$cardNumber = $isValid")
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
