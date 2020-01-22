@@ -43,6 +43,7 @@ class CreditCardTest {
 
     @Test
     fun ExtractCardNumber() {
+        assert(CreditCard.ExtractCardNumber("3458o2b04Ss8307" + "123456789") is AmericanExpress)
         assert(CreditCard.ExtractCardNumber("345802604558307" + "123456789") is AmericanExpress)
         assert(CreditCard.ExtractCardNumber("6011628014586236" + "123456789") is DiscoverCard)
         assert(CreditCard.ExtractCardNumber("4916036765779888" + "123456789") is VisaCard)

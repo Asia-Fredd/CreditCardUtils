@@ -27,7 +27,7 @@ class CreditCard {
         }
 
         @JvmStatic
-        internal fun ExtractNumber(
+        /*internal*/ fun ExtractNumber(
             src: CharSequence,
             pattern: Pattern = DefaultPattern
         ): CharSequence? =
@@ -35,6 +35,15 @@ class CreditCard {
                 IntArray(groupCount()) { i -> start(i + 1) }.fold(StringBuilder()) { sb, start ->
                     start.takeUnless { it < 0 }
                         ?.run(src::get)
+                        ?.run {
+                            when(this) {
+                                'b' -> '6'
+                                'B' -> '8'
+                                'o', 'O' -> '0'
+                                's', 'S' -> '5'
+                                else -> this
+                            }
+                        }
                         ?.run(sb::append)
                         ?: sb
                 }
@@ -45,12 +54,13 @@ class CreditCard {
          *
          * 先萃取出 15~19碼
          */
-        private val DefaultPattern: Pattern = StringBuilder("([1-9])")
-            .append("[\\-\\r\\n\\s]{0,2}(\\d)".repeat(14))
-            .append("[\\-\\r\\n\\s]{0,2}(\\d)").append('?')
-            .append("[\\-\\r\\n\\s]{0,2}(\\d)").append('?')
-            .append("[\\-\\r\\n\\s]{0,2}(\\d)").append('?')
-            .append("[\\-\\r\\n\\s]{0,2}(\\d)").append('?')
+        @JvmField
+        /*private*/ val DefaultPattern: Pattern = StringBuilder("([1-9osOSbB])")
+            .append("[\\-\\r\\n\\s]{0,2}([\\dosOSbB])".repeat(14))
+            .append("[\\-\\r\\n\\s]{0,2}([\\dosOSbB])").append('?')
+            .append("[\\-\\r\\n\\s]{0,2}([\\dosOSbB])").append('?')
+            .append("[\\-\\r\\n\\s]{0,2}([\\dosOSbB])").append('?')
+            .append("[\\-\\r\\n\\s]{0,2}([\\dosOSbB])").append('?')
             .toString()
             .run(Pattern::compile)
 
